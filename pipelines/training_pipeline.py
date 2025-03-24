@@ -1,3 +1,4 @@
+from steps.cleaned_data_saver_step import cleaned_data_saver
 from steps.data_ingestion_step import data_ingestion_step
 from steps.data_splitting_step import data_splitter_step
 from steps.feature_importance_step import RandomForestFeatureImportance
@@ -29,7 +30,7 @@ def ml_pipeline():
     Returns:
         Trained model.
     """
-
+    
     # Step 1: Load raw dataset
     raw_dataset = data_ingestion_step(
         file_path="/mnt/c/Users/debo/Desktop/my_zenml_projects/house_price_prediction_zenml_and_mlflow/data/archive.zip"
@@ -46,6 +47,9 @@ def ml_pipeline():
     # Step 4: Handle outliers
     cleaned_data = outlier_handling_step(engineered_dataset, column_name="SalePrice")
 
+    # Step 4.5: Save cleaned data
+    cleaned_data_saver(cleaned_data)
+
     # Step 5: Split data into training and testing sets
     X_train, X_test, y_train, y_test = data_splitter_step(
         cleaned_data, target_column="SalePrice"
@@ -60,7 +64,6 @@ def ml_pipeline():
     )
 
     return model
-
 
 if __name__ == "__main__":
     # Running the pipeline
