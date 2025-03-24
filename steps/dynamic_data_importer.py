@@ -5,8 +5,7 @@ from zenml import step
 @step
 def dynamic_importer() -> str:
     """Dynamically imports data for testing out the model."""
-    # Here, we simulate importing or generating some data.
-    # In a real-world scenario, this could be an API call, database query, or loading from a file.
+    # Simulation
     data = {
         "Order": [1, 2],
         "PID": [526301100, 526301101],

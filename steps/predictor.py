@@ -6,10 +6,7 @@ from zenml.integrations.mlflow.services import MLFlowDeploymentService
 
 
 @step(enable_cache=False)
-def predictor(
-    service: MLFlowDeploymentService,
-    input_data: str,
-) -> np.ndarray:
+def predictor(service: MLFlowDeploymentService, input_data: str) -> np.ndarray:
     """
     Run an inference request against a deployed MLflow model.
 

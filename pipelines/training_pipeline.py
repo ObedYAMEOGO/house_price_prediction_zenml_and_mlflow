@@ -6,7 +6,7 @@ from steps.missing_values_handler_step import missing_values_handler_step
 from steps.model_building_step import model_building_step
 from steps.model_evaluator_step import model_evaluator_step
 from steps.outliers_handling_step import outlier_handling_step
-from zenml import Model, pipeline
+from zenml import Model, pipeline, step
 
 
 @pipeline(
@@ -32,7 +32,7 @@ def ml_pipeline():
 
     # Step 1: Load raw dataset
     raw_dataset = data_ingestion_step(
-        file_path="C:/Users/debo/Desktop/my_zenml_projects/house_price_prediction_zenml_and_mlflow/data/archive.zip"
+        file_path="/mnt/c/Users/debo/Desktop/my_zenml_projects/house_price_prediction_zenml_and_mlflow/data/archive.zip"
     )
 
     # Step 2: Handle missing values

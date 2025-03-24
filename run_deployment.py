@@ -19,7 +19,7 @@ from zenml.integrations.mlflow.model_deployers.mlflow_model_deployer import (
 )
 def run_main(stop_service: bool):
     """Run the prices predictor deployment pipeline"""
-    model_name = "prices_predictor"
+    model_name = "housing_price_predictor"
 
     if stop_service:
         # Get the MLflow model deployer stack component
@@ -34,7 +34,7 @@ def run_main(stop_service: bool):
         )
 
         if existing_services:
-            existing_services[0].stop(timeout=10)
+            existing_services[0].stop(timeout=50)
         return
 
     # Run the continuous deployment pipeline
@@ -64,7 +64,7 @@ def run_main(stop_service: bool):
         print(
             f"The MLflow prediction server is running locally as a daemon "
             f"process and accepts inference requests at:\n"
-            f"    {service[0].prediction_url}\n"
+            f"{service[0].prediction_url}\n"
             f"To stop the service, re-run the same command and supply the "
             f"`--stop-service` argument."
         )

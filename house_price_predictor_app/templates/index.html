@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Predictor</title>
+    <link href="/static/output.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #1a202c;
+            --secondary-dark: #2d3748;
+            --input-dark: #4a5568;
+            --accent-blue: #4299e1;
+            --accent-blue-dark: #3182ce;
+            --text-light: #f7fafc;
+            --text-muted: #a0aec0;
+        }
+        
+        body {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .glass-card {
+            background: rgba(45, 55, 72, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(74, 85, 104, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .input-card {
+            background: var(--input-dark);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .input-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-blue);
+        }
+        
+        .input-field {
+            background: rgba(74, 85, 104, 0.7);
+            color: var(--text-light);
+            border: 1px solid rgba(160, 174, 192, 0.2);
+        }
+        
+        .input-field:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+        
+        .nav-btn {
+            background: var(--accent-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: var(--accent-blue-dark);
+            transform: scale(1.05);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: rgba(66, 153, 225, 0.3);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            transition: width 0.4s ease;
+        }
+        
+        .section-indicator {
+            width: 10px;
+            height: 10px;
+            background: rgba(66, 153, 225, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .section-indicator.active {
+            background: var(--accent-blue);
+            transform: scale(1.2);
+        }
+        
+        /* Hide all sections by default */
+        .form-section {
+            display: none;
+        }
+        
+        /* Only show active section */
+        .form-section.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-blue-400 mb-3">House Price Predictor</h1>
+            <p class="text-gray-400 text-lg">Complete the form to get an accurate valuation</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Input Form -->
+            <div class="glass-card p-8 rounded-2xl lg:col-span-2">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-semibold text-blue-300">Property Details</h2>
+                    <div class="text-gray-400" id="section-counter">Step 1 of 7</div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-bar rounded-full mb-8">
+                    <div class="progress-fill rounded-full" style="width: 14%"></div>
+                </div>
+                
+                <!-- Section Indicators -->
+                <div class="flex justify-center gap-2 mb-8">
+                    <div class="section-indicator rounded-full active"></div>
+                    <div class="section-indicator rounded-full"></div>
+                    <div class="section-indicator rounded-full"></div>
+                    <div class="section-indicator rounded-full"></div>
+                    <div class="section-indicator rounded-full"></div>
+                    <div class="section-indicator rounded-full"></div>
+                    <div class="section-indicator rounded-full"></div>
+                </div>
+                
+                <form id="predictionForm">
+                    <!-- Section 1: Basic Information -->
+                    <div class="form-section active" id="section-1">
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Order" class="block text-sm font-medium text-gray-300 mb-1">Order</label>
+                            <input type="number" id="Order" name="Order" value="1" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="PID" class="block text-sm font-medium text-gray-300 mb-1">PID</label>
+                            <input type="number" id="PID" name="PID" value="5286" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="MS_SubClass" class="block text-sm font-medium text-gray-300 mb-1">MS SubClass</label>
+                            <input type="number" id="MS_SubClass" name="MS_SubClass" value="20" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Lot_Frontage" class="block text-sm font-medium text-gray-300 mb-1">Lot Frontage (sqft)</label>
+                            <input type="number" step="0.1" id="Lot_Frontage" name="Lot_Frontage" value="80.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Lot_Area" class="block text-sm font-medium text-gray-300 mb-1">Lot Area (sqft)</label>
+                            <input type="number" id="Lot_Area" name="Lot_Area" value="9600" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Overall_Qual" class="block text-sm font-medium text-gray-300 mb-1">Overall Quality (1-10)</label>
+                            <input type="number" min="1" max="10" id="Overall_Qual" name="Overall_Qual" value="5" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Property Characteristics -->
+                    <div class="form-section" id="section-2">
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Overall_Cond" class="block text-sm font-medium text-gray-300 mb-1">Overall Condition (1-10)</label>
+                            <input type="number" min="1" max="10" id="Overall_Cond" name="Overall_Cond" value="7" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Year_Built" class="block text-sm font-medium text-gray-300 mb-1">Year Built</label>
+                            <input type="number" id="Year_Built" name="Year_Built" value="1961" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Year_Remod_Add" class="block text-sm font-medium text-gray-300 mb-1">Year Remodeled</label>
+                            <input type="number" id="Year_Remod_Add" name="Year_Remod_Add" value="1961" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Mas_Vnr_Area" class="block text-sm font-medium text-gray-300 mb-1">Masonry Veneer Area</label>
+                            <input type="number" step="0.1" id="Mas_Vnr_Area" name="Mas_Vnr_Area" value="0.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="BsmtFin_SF_1" class="block text-sm font-medium text-gray-300 mb-1">Bsmt Finished Area 1</label>
+                            <input type="number" step="0.1" id="BsmtFin_SF_1" name="BsmtFin_SF_1" value="700.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="BsmtFin_SF_2" class="block text-sm font-medium text-gray-300 mb-1">Bsmt Finished Area 2</label>
+                            <input type="number" step="0.1" id="BsmtFin_SF_2" name="BsmtFin_SF_2" value="0.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Basement Details -->
+                    <div class="form-section" id="section-3">
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Bsmt_Unf_SF" class="block text-sm font-medium text-gray-300 mb-1">Bsmt Unfinished Area</label>
+                            <input type="number" step="0.1" id="Bsmt_Unf_SF" name="Bsmt_Unf_SF" value="150.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Total_Bsmt_SF" class="block text-sm font-medium text-gray-300 mb-1">Total Basement Area</label>
+                            <input type="number" step="0.1" id="Total_Bsmt_SF" name="Total_Bsmt_SF" value="850.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="1st_Flr_SF" class="block text-sm font-medium text-gray-300 mb-1">1st Floor Area</label>
+                            <input type="number" id="1st_Flr_SF" name="1st_Flr_SF" value="856" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="2nd_Flr_SF" class="block text-sm font-medium text-gray-300 mb-1">2nd Floor Area</label>
+                            <input type="number" id="2nd_Flr_SF" name="2nd_Flr_SF" value="854" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Low_Qual_Fin_SF" class="block text-sm font-medium text-gray-300 mb-1">Low Quality Fin SF</label>
+                            <input type="number" id="Low_Qual_Fin_SF" name="Low_Qual_Fin_SF" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Gr_Liv_Area" class="block text-sm font-medium text-gray-300 mb-1">Living Area</label>
+                            <input type="number" step="0.1" id="Gr_Liv_Area" name="Gr_Liv_Area" value="1710.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Bathrooms -->
+                    <div class="form-section" id="section-4">
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Bsmt_Full_Bath" class="block text-sm font-medium text-gray-300 mb-1">Bsmt Full Baths</label>
+                            <input type="number" id="Bsmt_Full_Bath" name="Bsmt_Full_Bath" value="1" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Bsmt_Half_Bath" class="block text-sm font-medium text-gray-300 mb-1">Bsmt Half Baths</label>
+                            <input type="number" id="Bsmt_Half_Bath" name="Bsmt_Half_Bath" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Full_Bath" class="block text-sm font-medium text-gray-300 mb-1">Full Baths</label>
+                            <input type="number" id="Full_Bath" name="Full_Bath" value="1" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Half_Bath" class="block text-sm font-medium text-gray-300 mb-1">Half Baths</label>
+                            <input type="number" id="Half_Bath" name="Half_Bath" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Bedroom_AbvGr" class="block text-sm font-medium text-gray-300 mb-1">Bedrooms Above Grade</label>
+                            <input type="number" id="Bedroom_AbvGr" name="Bedroom_AbvGr" value="3" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Kitchen_AbvGr" class="block text-sm font-medium text-gray-300 mb-1">Kitchens Above Grade</label>
+                            <input type="number" id="Kitchen_AbvGr" name="Kitchen_AbvGr" value="1" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Rooms and Garage -->
+                    <div class="form-section" id="section-5">
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="TotRms_AbvGrd" class="block text-sm font-medium text-gray-300 mb-1">Total Rooms Above Grade</label>
+                            <input type="number" id="TotRms_AbvGrd" name="TotRms_AbvGrd" value="7" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Fireplaces" class="block text-sm font-medium text-gray-300 mb-1">Fireplaces</label>
+                            <input type="number" id="Fireplaces" name="Fireplaces" value="2" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Garage_Yr_Blt" class="block text-sm font-medium text-gray-300 mb-1">Garage Year Built</label>
+                            <input type="number" id="Garage_Yr_Blt" name="Garage_Yr_Blt" value="1961" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Garage_Cars" class="block text-sm font-medium text-gray-300 mb-1">Garage Cars</label>
+                            <input type="number" id="Garage_Cars" name="Garage_Cars" value="2" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Garage_Area" class="block text-sm font-medium text-gray-300 mb-1">Garage Area (sqft)</label>
+                            <input type="number" step="0.1" id="Garage_Area" name="Garage_Area" value="500.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Wood_Deck_SF" class="block text-sm font-medium text-gray-300 mb-1">Wood Deck Area</label>
+                            <input type="number" step="0.1" id="Wood_Deck_SF" name="Wood_Deck_SF" value="210.0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                    </div>
+
+                    <!-- Section 6: Outdoor Features -->
+                    <div class="form-section" id="section-6">
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Open_Porch_SF" class="block text-sm font-medium text-gray-300 mb-1">Open Porch Area</label>
+                            <input type="number" id="Open_Porch_SF" name="Open_Porch_SF" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Enclosed_Porch" class="block text-sm font-medium text-gray-300 mb-1">Enclosed Porch Area</label>
+                            <input type="number" id="Enclosed_Porch" name="Enclosed_Porch" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="3Ssn_Porch" class="block text-sm font-medium text-gray-300 mb-1">3 Season Porch Area</label>
+                            <input type="number" id="3Ssn_Porch" name="3Ssn_Porch" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Screen_Porch" class="block text-sm font-medium text-gray-300 mb-1">Screen Porch Area</label>
+                            <input type="number" id="Screen_Porch" name="Screen_Porch" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Pool_Area" class="block text-sm font-medium text-gray-300 mb-1">Pool Area</label>
+                            <input type="number" id="Pool_Area" name="Pool_Area" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Misc_Val" class="block text-sm font-medium text-gray-300 mb-1">Misc Value</label>
+                            <input type="number" id="Misc_Val" name="Misc_Val" value="0" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                    </div>
+
+                    <!-- Section 7: Sale Information -->
+                    <div class="form-section" id="section-7">
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Mo_Sold" class="block text-sm font-medium text-gray-300 mb-1">Month Sold</label>
+                            <input type="number" min="1" max="12" id="Mo_Sold" name="Mo_Sold" value="5" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                        <div class="input-card p-5 rounded-xl">
+                            <label for="Yr_Sold" class="block text-sm font-medium text-gray-300 mb-1">Year Sold</label>
+                            <input type="number" id="Yr_Sold" name="Yr_Sold" value="2010" class="input-field w-full rounded-lg px-4 py-2">
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" id="back-btn" class="nav-btn px-6 py-3 rounded-lg text-white font-medium hidden">
+                            ← Previous
+                        </button>
+                        <button type="button" id="continue-btn" class="nav-btn px-6 py-3 rounded-lg text-white font-medium">
+                            Continue →
+                        </button>
+                        <button type="submit" id="submit-btn" class="nav-btn bg-green-500 hover:bg-green-600 px-6 py-3 rounded-lg text-white font-medium hidden">
+                            Predict Price
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h2 class="text-2xl font-semibold text-blue-300 mb-6">Prediction Results</h2>
+                
+                <div id="loadingIndicator" class="hidden flex flex-col items-center justify-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                    <p class="text-gray-400">Calculating prediction...</p>
+                </div>
+                
+                <div id="predictionResult" class="hidden space-y-6">
+                    <div class="bg-blue-900/30 p-6 rounded-xl border border-blue-800/50">
+                        <h3 class="font-medium text-blue-300 mb-1">Estimated Property Value</h3>
+                        <p id="predictedPrice" class="text-3xl font-bold text-blue-400">₹0</p>
+                        <p class="text-sm text-gray-400 mt-2">Based on current market trends</p>
+                    </div>
+                    
+                    <div class="border-t border-gray-700 pt-4">
+                        <h3 class="font-medium text-blue-300 mb-3">Key Features</h3>
+                        <div id="keyFeatures" class="space-y-3">
+                            <!-- Features will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="errorMessage" class="hidden p-4 bg-red-900/30 rounded-xl border border-red-800/50 text-red-300">
+                    <p id="errorText"></p>
+                </div>
+
+                <!-- Sample Features (hidden by default) -->
+                <div id="sampleFeatures" class="space-y-3 text-sm text-gray-400 italic">
+                    <p>Complete all sections to see prediction results</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form Navigation Logic
+        const sections = document.querySelectorAll('.form-section');
+        const backBtn = document.getElementById('back-btn');
+        const continueBtn = document.getElementById('continue-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const sectionCounter = document.getElementById('section-counter');
+        const progressFill = document.querySelector('.progress-fill');
+        const sectionIndicators = document.querySelectorAll('.section-indicator');
+        let currentSection = 0;
+
+        // Initialize form
+        function showSection(index) {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+            
+            // Update navigation buttons
+            backBtn.classList.toggle('hidden', index === 0);
+            continueBtn.classList.toggle('hidden', index === sections.length - 1);
+            submitBtn.classList.toggle('hidden', index !== sections.length - 1);
+            
+            // Update section counter
+            sectionCounter.textContent = `Step ${index + 1} of ${sections.length}`;
+            
+            // Update progress bar
+            const progress = ((index + 1) / sections.length) * 100;
+            progressFill.style.width = `${progress}%`;
+            
+            // Update section indicators
+            sectionIndicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i <= index);
+            });
+        }
+
+        // Navigation event listeners
+        backBtn.addEventListener('click', () => {
+            if (currentSection > 0) {
+                currentSection--;
+                showSection(currentSection);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        continueBtn.addEventListener('click', () => {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                showSection(currentSection);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        // Form submission
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading indicator
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('predictionResult').classList.add('hidden');
+            document.getElementById('errorMessage').classList.add('hidden');
+            document.getElementById('sampleFeatures').classList.add('hidden');
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Multiply by 1000 and format as INR
+                    const rawPrice = data.prediction.predictions[0] * 1000;
+                    const formattedPrice = rawPrice.toLocaleString("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                        maximumFractionDigits: 0
+                    });
+                    
+                    document.getElementById('predictedPrice').textContent = formattedPrice;
+                    
+                    // Display key features
+                    const featuresContainer = document.getElementById('keyFeatures');
+                    featuresContainer.innerHTML = '';
+                    
+                    const inputData = data.input_data.dataframe_records[0];
+                    const importantFeatures = [
+                        { name: 'Living Area', value: inputData['Gr Liv Area'] + ' sqft' },
+                        { name: 'Overall Quality', value: inputData['Overall Qual'] + '/10' },
+                        { name: 'Total Rooms', value: inputData['TotRms AbvGrd'] },
+                        { name: 'Bedrooms', value: inputData['Bedroom AbvGr'] },
+                        { name: 'Bathrooms', value: (inputData['Full Bath'] + 0.5 * inputData['Half Bath']) },
+                        { name: 'Year Built', value: inputData['Year Built'] },
+                        { name: 'Garage Size', value: inputData['Garage Cars'] + ' cars' }
+                    ];
+                    
+                    importantFeatures.forEach(feature => {
+                        const featureElement = document.createElement('div');
+                        featureElement.className = 'flex justify-between text-sm';
+                        featureElement.innerHTML = `
+                            <span class="text-gray-400">${feature.name}</span>
+                            <span class="font-medium">${feature.value}</span>
+                        `;
+                        featuresContainer.appendChild(featureElement);
+                    });
+                    
+                    document.getElementById('predictionResult').classList.remove('hidden');
+                } else {
+                    document.getElementById('errorText').textContent = data.error + (data.details ? ': ' + data.details : '');
+                    document.getElementById('errorMessage').classList.remove('hidden');
+                }
+            } catch (error) {
+                document.getElementById('errorText').textContent = 'An error occurred: ' + error.message;
+                document.getElementById('errorMessage').classList.remove('hidden');
+            } finally {
+                document.getElementById('loadingIndicator').classList.add('hidden');
+            }
+        });
+
+        // Initialize first section
+        showSection(0);
+    </script>
+</body>
+</html>

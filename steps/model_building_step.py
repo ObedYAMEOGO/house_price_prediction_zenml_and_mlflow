@@ -1,8 +1,8 @@
 import logging
 from typing import Annotated
 
-import pandas as pd
-import mlflow
+import pandas as pd # type: ignore
+import mlflow # type: ignore
 from zenml import step, ArtifactConfig, client, Model
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -15,7 +15,7 @@ experiment_tracker = client.Client().active_stack.experiment_tracker
 
 # Define model metadata for tracking within ZenML
 model = Model(
-    name="House_price_predictor",
+    name="housing_price_predictor",
     version=None,
     license="Apache 2.0",
     description="Housing price prediction model using Linear Regression",

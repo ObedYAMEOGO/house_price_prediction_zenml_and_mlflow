@@ -1,18 +1,4 @@
-# Core ML libraries  
-numpy             # Numerical computing  
-pandas            # Data manipulation and analysis  
-scikit_learn      # Machine learning models and utilities  
-
-# Visualization  
-matplotlib        # Data visualization  
-seaborn           # Statistical data visualization  
-
-# MLflow for experiment tracking  
-mlflow            # ML lifecycle management (tracking, logging, deployment)  
-mlflow_skinny     # Lightweight version of MLflow without extra dependencies  
-
-# ZenML for pipeline management  
-zenml==0.80.0           # Orchestrate ML workflows  
-
-# CLI and utilities  
-click             # Command-line interface toolkit  
+scikit_learn
+matplotlib
+seaborn
+zenml==0.80.0
