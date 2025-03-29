@@ -1,0 +1,6 @@
+artifact_location: file:///mnt/c/Users/debo/Desktop/my_zenml_projects/house_price_prediction_zenml_and_mlflow/mlruns/892316610122067517
+creation_time: 1743040801151
+experiment_id: '892316610122067517'
+last_update_time: 1743040801151
+lifecycle_stage: active
+name: ml_pipeline

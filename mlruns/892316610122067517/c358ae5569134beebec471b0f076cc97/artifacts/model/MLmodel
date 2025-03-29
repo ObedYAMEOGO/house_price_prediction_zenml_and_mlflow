@@ -1,0 +1,54 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 2.20.4
+model_size_bytes: 3646
+model_uuid: c972c85ce54a4a48832e40317c06f0fa
+run_id: c358ae5569134beebec471b0f076cc97
+signature:
+  inputs: '[{"type": "long", "name": "Order", "required": true}, {"type": "long",
+    "name": "PID", "required": true}, {"type": "long", "name": "MS SubClass", "required":
+    true}, {"type": "double", "name": "Lot Frontage", "required": true}, {"type":
+    "long", "name": "Lot Area", "required": true}, {"type": "long", "name": "Overall
+    Qual", "required": true}, {"type": "long", "name": "Overall Cond", "required":
+    true}, {"type": "long", "name": "Year Built", "required": true}, {"type": "long",
+    "name": "Year Remod/Add", "required": true}, {"type": "double", "name": "Mas Vnr
+    Area", "required": true}, {"type": "double", "name": "BsmtFin SF 1", "required":
+    true}, {"type": "double", "name": "BsmtFin SF 2", "required": true}, {"type":
+    "double", "name": "Bsmt Unf SF", "required": true}, {"type": "double", "name":
+    "Total Bsmt SF", "required": true}, {"type": "long", "name": "1st Flr SF", "required":
+    true}, {"type": "long", "name": "2nd Flr SF", "required": true}, {"type": "long",
+    "name": "Low Qual Fin SF", "required": true}, {"type": "double", "name": "Gr Liv
+    Area", "required": true}, {"type": "double", "name": "Bsmt Full Bath", "required":
+    true}, {"type": "double", "name": "Bsmt Half Bath", "required": true}, {"type":
+    "long", "name": "Full Bath", "required": true}, {"type": "long", "name": "Half
+    Bath", "required": true}, {"type": "long", "name": "Bedroom AbvGr", "required":
+    true}, {"type": "long", "name": "Kitchen AbvGr", "required": true}, {"type": "long",
+    "name": "TotRms AbvGrd", "required": true}, {"type": "long", "name": "Fireplaces",
+    "required": true}, {"type": "double", "name": "Garage Yr Blt", "required": true},
+    {"type": "double", "name": "Garage Cars", "required": true}, {"type": "double",
+    "name": "Garage Area", "required": true}, {"type": "long", "name": "Wood Deck
+    SF", "required": true}, {"type": "long", "name": "Open Porch SF", "required":
+    true}, {"type": "long", "name": "Enclosed Porch", "required": true}, {"type":
+    "long", "name": "3Ssn Porch", "required": true}, {"type": "long", "name": "Screen
+    Porch", "required": true}, {"type": "long", "name": "Pool Area", "required": true},
+    {"type": "long", "name": "Misc Val", "required": true}, {"type": "long", "name":
+    "Mo Sold", "required": true}, {"type": "long", "name": "Yr Sold", "required":
+    true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-03-27 02:00:03.989468'

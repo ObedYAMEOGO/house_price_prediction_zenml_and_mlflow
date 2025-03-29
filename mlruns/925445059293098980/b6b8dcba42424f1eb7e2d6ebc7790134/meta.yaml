@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/debo/Desktop/my_zenml_projects/house_price_prediction_zenml_and_mlflow/mlruns/925445059293098980/b6b8dcba42424f1eb7e2d6ebc7790134/artifacts
+end_time: 1743040992099
+entry_point_name: ''
+experiment_id: '925445059293098980'
+lifecycle_stage: active
+run_id: b6b8dcba42424f1eb7e2d6ebc7790134
+run_name: continuous_deployment_pipeline-2025_03_27-02_02_44_879926
+run_uuid: b6b8dcba42424f1eb7e2d6ebc7790134
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743040985713
+status: 3
+tags: []
+user_id: debo
